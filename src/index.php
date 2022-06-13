@@ -1,6 +1,6 @@
 <?php
 
-echo "POC Sproutloud - Containers V 1.1 <br><br>";
+echo "POC Sproutloud - Containers V 1.2 <br><br>";
 
 // $mysqli = new mysqli("db", "root", "example", "company1");
 //
