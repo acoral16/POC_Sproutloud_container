@@ -8,7 +8,7 @@ jobs:
         name: Build and Push to GCP
         runs-on: ubuntu-latest
         env:
-            IMAGE_NAME: poc_sproutloud
+            IMAGE_NAME: poc_sproutloud_container_php
             PROJECT_ID: long-base-353208
         steps:
             - name: Checkout
@@ -22,7 +22,7 @@ jobs:
 
             - name: Build Docker Image
               #run: docker build -t $IMAGE_NAME:latest .
-              run: docker-compose -f docker-compose.yml up -d
+              run: docker-compose up -d
 
             - name: Automatic Tagging of Releases
               id: increment-git-tag
