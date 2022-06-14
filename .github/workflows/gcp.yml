@@ -21,7 +21,8 @@ jobs:
                   export_default_credentials: true
 
             - name: Build Docker Image
-              run: docker build -t $IMAGE_NAME:latest .
+              #run: docker build -t $IMAGE_NAME:latest .
+              run: docker-compose -f docker-compose.yml up -d
 
             - name: Automatic Tagging of Releases
               id: increment-git-tag
@@ -35,15 +36,15 @@ jobs:
               env:
                   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
               run: |-
-                  docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
-                  docker tag $IMAGE_NAME:latest gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
-                  docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:latest
-                  docker push gcr.io/$PROJECT_ID/$IMAGE_NAME:$GIT_TAG
+                  docker tag poc_sproutloud_container:latest gcr.io/$PROJECT_ID/poc_sproutloud_container:latest
+                  docker tag poc_sproutloud_container:latest gcr.io/$PROJECT_ID/poc_sproutloud_container:$GIT_TAG
+                  docker push gcr.io/$PROJECT_ID/poc_sproutloud_container:latest
+                  docker push gcr.io/$PROJECT_ID/poc_sproutloud_container:$GIT_TAG
             - name: Push Docker Image to Artifact Registry
               env:
                   GIT_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
               run: |-
-                  docker tag $IMAGE_NAME:latest us-west2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
-                  docker tag $IMAGE_NAME:latest us-west2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG
-                  docker push us-west2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:latest
-                  docker push us-west2-docker.pkg.dev/$PROJECT_ID/images/$IMAGE_NAME:$GIT_TAG
+                  docker tag poc_sproutloud_container:latest us-west2-docker.pkg.dev/$PROJECT_ID/images/poc_sproutloud_container:latest
+                  docker tag poc_sproutloud_container:latest us-west2-docker.pkg.dev/$PROJECT_ID/images/poc_sproutloud_container:$GIT_TAG
+                  docker push us-west2-docker.pkg.dev/$PROJECT_ID/images/poc_sproutloud_container:latest
+                  docker push us-west2-docker.pkg.dev/$PROJECT_ID/images/poc_sproutloud_container:$GIT_TAG
